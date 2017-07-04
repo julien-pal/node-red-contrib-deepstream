@@ -1,0 +1,380 @@
+<!-- ***************** RPC MAKE *********************** -->
+<script type="text/x-red" data-template-name="Deepstream RPC make">
+    <div class="form-row">
+        <label for="node-input-server" style="width: 110px;"><i class="fa fa-bookmark"></i>Server</label>
+        <input type="text" id="node-input-server">
+    </div>	
+    <div class="form-row">
+        <label for="node-input-method" style="width: 110px;"><i class="fa fa-envelope"></i>Method</label>
+        <input type="text" id="node-input-method" placeholder="method">
+    </div>
+    <div class="form-row">
+        <label for="node-input-name" style="width: 110px;"><i class="fa fa-tag"></i>Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="Deepstream RPC make">
+    <p>Connects to a server using the deepstream protocol to call a function with or without params for results.</p>
+	<p>The function parameters will be stored in the <code>msg.payload</code></p>
+    <p>If the message received is JSON <code>msg.payload</code> will be parsed into an object. If not it will be the raw data.</p>
+    <p><code>msg.topic</code> is set to the predefined subscription topic.</p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('Deepstream RPC make',{
+        category: 'function',
+        color:"#e8cfe8",
+        defaults: {
+            name: {value:""},
+            server: {
+				type:"deepstream-server",
+				required:true
+			},
+            method: {
+				value:"",
+				required:true
+			}
+        },
+        inputs:1,
+        outputs:1,
+        icon: "bridge.png",
+        label: function() {
+            return this.name||"Deepstream RPC Make";
+        },
+        labelStyle: function() {
+            return (this.name)?"node_label_italic":"";
+        }
+    });
+</script>
+
+<!-- ***************** RPC PROVIDE *********************** -->
+<script type="text/x-red" data-template-name="Deepstream RPC provide">
+	<div class="form-row">
+        <label for="node-input-server" style="width: 110px;"><i class="fa fa-bookmark"></i>Server</label>
+        <input type="text" id="node-input-server">
+    </div>
+    <div class="form-row">
+        <label for="node-input-method" style="width: 110px;"><i class="fa fa-envelope"></i>Method</label>
+        <input type="text" id="node-input-method" placeholder="method">
+    </div>
+    <div class="form-row">
+        <label for="node-input-name" style="width: 110px;"><i class="fa fa-tag"></i>Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="Deepstream RPC provide">
+    <p>Connects to a server using the deepstream protocol to provide a result for a method.</p>
+	<p>The parameter <code>method</code> (or <code>msg.topic</code>) will define the method to which we answer.</p>
+	<br>
+	<p>The output will be put in :</p>
+	<p>	<code>msg.payload</code> the function parameters</p>
+	<p>	<code>msg.res</code> the response to which we will return the result</p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('Deepstream RPC provide',{
+        category: 'input',
+        color:"#e8cfe8",
+        defaults: {
+            name: {value:""},
+            server: {type:"deepstream-server",required:true},
+            method: {value:"",required:true}
+        },
+        inputs:0,
+        outputs:1,
+        icon: "bridge.png",
+        label: function() {
+            return this.name||"Deepstream RPC Provide";
+        },
+        labelStyle: function() {
+            return (this.name)?"node_label_italic":"";
+        }
+    });
+</script>
+
+<!-- ***************** RPC RESPONSE *********************** -->
+<script type="text/x-red" data-template-name="Deepstream RPC response">
+	<div class="form-row">
+        <label for="node-input-server" style="width: 110px;"><i class="fa fa-bookmark"></i>Server</label>
+        <input type="text" id="node-input-server">
+    </div>
+    <div class="form-row">
+        <label for="node-input-method" style="width: 110px;"><i class="fa fa-envelope"></i>Method</label>
+        <input type="text" id="node-input-method" placeholder="method">
+    </div>
+    <div class="form-row">
+        <label for="node-input-name" style="width: 110px;"><i class="fa fa-tag"></i>Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="Deepstream RPC response">
+	<p> Send response to deepstream </p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('Deepstream RPC response',{
+        category: 'output',
+        color:"#e8cfe8",
+        defaults: {
+            name: {value:""}
+        },
+        inputs:1,
+        outputs:0,
+        icon: "bridge.png",
+        label: function() {
+            return this.name||"Deepstream Response";
+        },
+        labelStyle: function() {
+            return (this.name)?"node_label_italic":"";
+        }
+    });
+</script>
+
+<!-- ***************** Event emit *********************** -->
+<script type="text/x-red" data-template-name="Deepstream Event emit">
+    <div class="form-row">
+        <label for="node-input-server" style="width: 110px;"><i class="fa fa-bookmark"></i>Server</label>
+        <input type="text" id="node-input-server">
+    </div>	
+    <div class="form-row">
+        <label for="node-input-method" style="width: 110px;"><i class="fa fa-envelope"></i>Method</label>
+        <input type="text" id="node-input-method" placeholder="method">
+    </div>
+    <div class="form-row">
+        <label for="node-input-name" style="width: 110px;"><i class="fa fa-tag"></i>Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="Deepstream Event emit">
+    <p>Connects to a server using the deepstream protocol to emit an event with or without params.</p>
+	<p>The function parameters will be stored in the <code>msg.payload</code></p>   
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('Deepstream Event emit',{
+        category: 'output',
+        color:"#e8cfe8",
+        defaults: {
+            name: {value:""},
+            server: {
+				type:"deepstream-server",
+				required:true
+			},
+            method: {
+				value:"",
+				required:true
+			}
+        },
+        inputs:1,
+        outputs:0,
+        icon: "bridge.png",
+        label: function() {
+            return this.name||"Deepstream Event Emit";
+        },
+        labelStyle: function() {
+            return (this.name)?"node_label_italic":"";
+        }
+    });
+</script>
+
+<!-- ***************** Event subscribe *********************** -->
+<script type="text/x-red" data-template-name="Deepstream Event subscribe">
+	<div class="form-row">
+        <label for="node-input-server" style="width: 110px;"><i class="fa fa-bookmark"></i>Server</label>
+        <input type="text" id="node-input-server">
+    </div>
+    <div class="form-row">
+        <label for="node-input-method" style="width: 110px;"><i class="fa fa-envelope"></i>Event</label>
+        <input type="text" id="node-input-method" placeholder="method">
+    </div>
+    <div class="form-row">
+        <label for="node-input-name" style="width: 110px;"><i class="fa fa-tag"></i>Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="Deepstream Event subscribe">
+    <p>Connects to a server using the deepstream protocol to subscribe to an event.</p>
+	<p>The parameter <code>Event</code> (or <code>msg.topic</code>) will define the event to which we subscribe.</p>
+	<br>
+	<p>The output will be put in <code>msg.payload</code></p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('Deepstream Event subscribe',{
+        category: 'input',
+        color:"#e8cfe8",
+        defaults: {
+            name: {value:""},
+            server: {type:"deepstream-server",required:true},
+            method: {value:"",required:true}
+        },
+        inputs:0,
+        outputs:1,
+        icon: "bridge.png",
+        label: function() {
+            return this.name||"Deepstream Event Subscribe";
+        },
+        labelStyle: function() {
+            return (this.name)?"node_label_italic":"";
+        }
+    });
+</script>
+
+<!-- ***************** Record update *********************** -->
+<script type="text/x-red" data-template-name="Deepstream Record update">
+    <div class="form-row">
+        <label for="node-input-server" style="width: 110px;"><i class="fa fa-bookmark"></i>Server</label>
+        <input type="text" id="node-input-server">
+    </div>	    
+	<div class="form-row">
+        <label for="node-input-recordPath" style="width: 110px;"><i class="fa fa-envelope"></i>Record path</label>
+        <input type="text" id="node-input-recordPath" placeholder="recordPath">
+    </div>
+	<div class="form-row">
+        <label for="node-input-path" style="width: 110px;"><i class="fa fa-envelope"></i>Update path</label>
+        <input type="text" id="node-input-path" placeholder="path">
+    </div>
+    <div class="form-row">
+        <label for="node-input-name" style="width: 110px;"><i class="fa fa-tag"></i>Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="Deepstream Record update">
+    <p>Connects to a server using the deepstream protocol to emit an event with or without params.</p>
+	<p>The function parameters will be stored in the <code>msg.payload</code></p>   
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('Deepstream Record update',{
+        category: 'output',
+        color:"#e8cfe8",
+        defaults: {
+            name: {value:""},
+            server: {
+				type:"deepstream-server",
+				required:true
+			},
+			recordPath: {value:"",required:true},
+			path: {value:"",required:true}
+        },
+        inputs:1,
+        outputs:0,
+        icon: "bridge.png",
+        label: function() {
+            return this.name||"Deepstream Record Update";
+        },
+        labelStyle: function() {
+            return (this.name)?"node_label_italic":"";
+        }
+    });
+</script>
+
+<!-- ***************** Record subscribe *********************** -->
+<script type="text/x-red" data-template-name="Deepstream Record subscribe">
+	<div class="form-row">
+        <label for="node-input-server" style="width: 110px;"><i class="fa fa-bookmark"></i>Server</label>
+        <input type="text" id="node-input-server">
+    </div>
+    <div class="form-row">
+        <label for="node-input-recordPath" style="width: 110px;"><i class="fa fa-envelope"></i>Record path</label>
+        <input type="text" id="node-input-recordPath" placeholder="recordPath">
+    </div>
+	<div class="form-row">
+        <label for="node-input-path" style="width: 110px;"><i class="fa fa-envelope"></i>Subscribe path</label>
+        <input type="text" id="node-input-path" placeholder="path">
+    </div>
+    <div class="form-row">
+        <label for="node-input-name" style="width: 110px;"><i class="fa fa-tag"></i>Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="Deepstream Record subscribe">
+    <p>Connects to a server using the deepstream protocol to subscribe to an event.</p>
+	<p>The parameter <code>Event</code> (or <code>msg.topic</code>) will define the event to which we subscribe.</p>
+	<br>
+	<p>The output will be put in <code>msg.payload</code></p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('Deepstream Record subscribe',{
+        category: 'input',
+        color:"#e8cfe8",
+        defaults: {
+            name: {value:""},
+            server: {type:"deepstream-server",required:true},
+            recordPath: {value:"",required:true},
+			path: {value:""}
+        },
+        inputs:0,
+        outputs:1,
+        icon: "bridge.png",
+        label: function() {
+            return this.name||"Deepstream Record Subscribe";
+        },
+        labelStyle: function() {
+            return (this.name)?"node_label_italic":"";
+        }
+    });
+</script>
+
+
+<!-- ***************** SERVER CONFIG *********************** -->
+<script type="text/x-red" data-template-name="deepstream-server">
+    <div class="form-row node-input-server">
+        <label for="node-config-input-server"><i class="fa fa-bookmark"></i> Server</label>
+        <input class="input-append-left" type="text" id="node-config-input-server" placeholder="localhost" style="width: 45%;" >
+        <label for="node-config-input-port" style="margin-left: 10px; width: 35px; "> Port</label>
+        <input type="text" id="node-config-input-port" placeholder="Port" style="width:45px">		
+    </div>
+	<div class="form-row">
+        <label for="node-config-input-timeout"> Timeout</label>
+        <input type="text" id="node-config-input-timeout" placeholder="Timeout">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-user"><i class="fa fa-user"></i>Username</label>
+        <input type="text" id="node-config-input-user">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-pass"><i class="fa fa-lock"></i>Password</label>
+        <input type="password" id="node-config-input-password">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-config-input-name" placeholder="Name">
+    </div>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('deepstream-server',{
+        category: 'config',
+        defaults: {
+            server: {
+				required:true
+			},
+            port: {
+				value:6020,
+				required:true,
+				validate:RED.validators.number()
+			},       
+			timeout: {
+				value : 500,
+				validate: RED.validators.number()
+			},
+            name: {}
+        },
+        credentials: {
+            user: {type:"text"},
+            password: {type: "password"}
+        },
+        label: function() {
+            return (this.name ? this.name : this.server+":"+this.port);
+        }
+    });
+</script>
