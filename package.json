@@ -9,7 +9,7 @@
 			"deepsteam-event": "deepsteam-event.js",
 			"deepsteam-record": "deepsteam-record.js"			
         }
-    }
+    },
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/julien-pal/node-red-contrib-deepstream.git"
