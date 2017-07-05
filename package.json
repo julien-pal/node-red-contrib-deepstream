@@ -5,7 +5,7 @@
 	"main": "deepstream.js",
 	"node-red" : {
         "nodes": {
-            "deepsteam": "deepsteam.js"
+            "deepstream": "deepstream.js"
         }
     },
 	"repository": {
