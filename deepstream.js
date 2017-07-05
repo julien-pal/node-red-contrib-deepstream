@@ -35,7 +35,7 @@ module.exports = function(RED) {
 				
 				node.client = new DeepstreamClient(dsServer);	
 				node.client.on("error", function(error) {
-					node.status({fill:"grey",shape:"dot",text:"error"});
+					node.status({fill:"grey",shape:"dot",text:"error - " + error});
 					node.warn(error);
 				});			
 				
@@ -45,7 +45,7 @@ module.exports = function(RED) {
 							callback(node.client);
 						}
 					} else {
-						node.status({fill:"red",shape:"ring",text:"error"});
+						node.status({fill:"red",shape:"ring",text:"error - " + data});
 						node.warn("Error while login in", data);							
 					}
 				});
