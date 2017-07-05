@@ -5,9 +5,7 @@
 	"main": "deepstream.js",
 	"node-red" : {
         "nodes": {
-            "deepsteam-rpc": "deepsteam-rpc.js",
-			"deepsteam-event": "deepsteam-event.js",
-			"deepsteam-record": "deepsteam-record.js"			
+            "deepsteam": "deepsteam.js",	
         }
     },
 	"repository": {
