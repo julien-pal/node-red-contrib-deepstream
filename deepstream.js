@@ -142,7 +142,11 @@ module.exports = function(RED) {
 					node.error('Error, no res in message');
 					node.status({fill:"red",shape:"dot",text:"no response in msg"});
 				} else {
-					msg.res.send(msg.payload);
+					if (msg.err) {
+						msg.res.error(msg.err);
+					} else {
+						msg.res.send(msg.payload);
+					}
 				}		 	
 			} catch (err) {
 				node.error(err);
