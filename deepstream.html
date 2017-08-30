@@ -295,7 +295,14 @@
     <p>Connects to a server using the deepstream protocol to get a record and subscribe to the <code>Subscribe Path</code> if one is defined.</p>
 	<p>The parameter <code>Record path</code> will define the record to get.</p>
 	<br>
-	<p>The output will be put in <code>msg.payload</code></p>
+	<p> On subscription we retrieve the record, the msg will contain the following data : <p>
+	<p>	<code>msg.record</code> : the record record</p>
+	<p> <code>msg.topic</code> : 'record'</p>
+	<p> <code>msg.payload</code>: null</p>
+	<p> Then on each update we will send the the following message : </p>
+	<p>	<code>msg.record</code> : the record record</p>
+	<p> <code>msg.topic</code> : 'update'</p>
+	<p> <code>msg.payload</code>: the updated data</p>
 </script>
 
 <script type="text/javascript">
@@ -340,7 +347,10 @@
     <p>Connects to a server using the deepstream protocol to get a record</p>
 	<p>The parameter <code>Record path</code> will define the record to get.</p>
 	<br>
-	<p>The output will be put in <code>msg.payload</code></p>
+	<p> The msg will contain the following data : <p>
+	<p>	<code>msg.record</code> : the record record</p>
+	<p> <code>msg.topic</code> : 'record'</p>
+	<p> <code>msg.payload</code>: null</p>
 </script>
 
 <script type="text/javascript">
