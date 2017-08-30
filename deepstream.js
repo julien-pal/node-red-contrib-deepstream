@@ -218,21 +218,13 @@ module.exports = function(RED) {
 				
 		node.on("input", function(msg) {
 			createDSClient(node, config, function(client) {
-				try {
-					if (!msg.record) {
-						if (!config.recordPath) {
-							node.error('Error, no record in message and no recordPath specified');
-							node.status({fill:"red",shape:"dot",text:"No msg.record and no recordPath specified"});
-						} else {
-							msg.record = client.record.getRecord(config.recordPath);
-						}
-					} else {	
-						if (config.path) {
-							msg.record.set(config.path, msg.payload);
-						} else {
-							msg.record.set(msg.payload);
-						}					
-					}
+				try {					
+					var record = client.record.getRecord(config.recordPath);					
+					if (config.path) {
+						record.set(config.path, msg.payload);
+					} else {
+						record.set(msg.payload);
+					}	
 				} catch(err) {
 					node.error(err);
 				}
@@ -260,16 +252,14 @@ module.exports = function(RED) {
 				node.status({fill:"green",shape:"dot",text:"connected"});
 				var record = client.record.getRecord(config.recordPath);
 				node.send({
-					record : record,
-					topic: 'record',
-					payload: record.get()
+					'topic'   : 'record',
+					'payload' : record.get()
 				})
 				if (config.path) {				
 					record.subscribe(config.path, function(data) {					
 						var msg = {
 							'topic'   : 'update',
-							'payload' : data,
-							'record'  : record
+							'payload' : data
 						}
 						node.send(msg);							
 					});

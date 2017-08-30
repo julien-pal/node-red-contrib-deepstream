@@ -242,7 +242,7 @@
 
 <script type="text/x-red" data-help-name="Deepstream Record update">
     <p>Connects to a server using the deepstream protocol update a Record</p>
-	<p>If the <code>msg.record</code> is defined it's updated, otherwise it retrieve the <code>recordPath</code></p>  
+	<p>Retrieve the record with record Path<code>recordPath</code></p>  
 	<br/>
 	<p>If the <code>path</code> value is defined it updated the specified path of the record,  otherwise it replace all data</p>   
 </script>
@@ -257,7 +257,7 @@
 				type:"deepstream-server",
 				required:true
 			},
-			recordPath: {value:""},
+			recordPath: {value:"", required:true},
 			path: {value:""}
         },
         inputs:1,
@@ -298,12 +298,10 @@
 	<p>The parameter <code>Record path</code> will define the record to get.</p>
 	<br>
 	<p> On subscription we retrieve the record, the msg will contain the following data : </p>
-	<p>	<code>msg.record</code> : the record record</p>
 	<p> <code>msg.topic</code> : 'record'</p>
 	<p> <code>msg.payload</code>: the record data</p>
 	<br/>
 	<p> Then on each update we will send the the following message : </p>
-	<p>	<code>msg.record</code> : the record record</p>
 	<p> <code>msg.topic</code> : 'update'</p>
 	<p> <code>msg.payload</code>: the updated data</p>
 </script>
@@ -351,7 +349,6 @@
 	<p>The parameter <code>Record path</code> will define the record to get.</p>
 	<br>
 	<p> The msg will contain the following data : </p>
-	<p>	<code>msg.record</code> : the record record</p>
 	<p> <code>msg.topic</code> : 'record'</p>
 	<p> <code>msg.payload</code>: the record data</p>
 </script>
