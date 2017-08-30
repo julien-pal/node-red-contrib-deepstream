@@ -246,36 +246,38 @@ module.exports = function(RED) {
 		var node = this;
 		RED.nodes.createNode(node, config);		
 		
-		node.status({fill:"grey",shape:"ring",text:"connecting"});
-		createDSClient(node, config, function(client) {
-			try {
-				node.status({fill:"green",shape:"dot",text:"connected"});
-				var record = client.record.getRecord(config.recordPath);
-				node.send({
-					'topic'   : 'record',
-					'payload' : record.get()
-				})
-				if (config.path) {				
-					record.subscribe(config.path, function(data) {					
-						var msg = {
-							'topic'   : 'update',
-							'payload' : data
-						}
-						node.send(msg);							
-					});
-				} else {
-					record.subscribe( function(data) {					
-						var msg = {
-							'topic'   : 'update',
-							'payload' : data
-						}
-						node.send(msg);							
-					});
+		node.on("input", function(msg) {
+			node.status({fill:"grey",shape:"ring",text:"connecting"});
+			createDSClient(node, config, function(client) {
+				try {
+					node.status({fill:"green",shape:"dot",text:"connected"});
+					var record = client.record.getRecord(config.recordPath);
+					node.send({
+						'topic'   : 'record',
+						'payload' : record.get()
+					})
+					if (config.path) {				
+						record.subscribe(config.path, function(data) {					
+							var msg = {
+								'topic'   : 'update',
+								'payload' : data
+							}
+							node.send(msg);							
+						});
+					} else {
+						record.subscribe( function(data) {					
+							var msg = {
+								'topic'   : 'update',
+								'payload' : data
+							}
+							node.send(msg);							
+						});
+					}
+				} catch(err) {
+					node.error(err);
 				}
-			} catch(err) {
-				node.error(err);
-			}
-		});		     
+			});		
+		});			
 
         node.on("close", function(done) {
             if (node.client) {
@@ -290,21 +292,23 @@ module.exports = function(RED) {
     function DeepstreamRecordGetNode(config) {    
 		var node = this;
 		RED.nodes.createNode(node, config);		
-		
-		node.status({fill:"grey",shape:"ring",text:"connecting"});
-		createDSClient(node, config, function(client) {
-			try {
-				node.status({fill:"green",shape:"dot",text:"connected"});
-				var record = client.record.getRecord(config.recordPath);
-				var msg = {
-					'payload' : record.get()
-				};				
-				node.send(msg);	
 				
-			} catch(err) {
-				node.error(err);
-			}
-		});		     
+		node.on("input", function(msg) {
+			node.status({fill:"grey",shape:"ring",text:"connecting"});
+			createDSClient(node, config, function(client) {
+				try {
+					node.status({fill:"green",shape:"dot",text:"connected"});
+					var record = client.record.getRecord(config.recordPath);
+					var msg = {
+						'payload' : record.get()
+					};				
+					node.send(msg);	
+					
+				} catch(err) {
+					node.error(err);
+				}
+			});		     
+		});
 
         node.on("close", function(done) {
             if (node.client) {
