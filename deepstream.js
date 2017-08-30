@@ -263,6 +263,14 @@ module.exports = function(RED) {
 						}
 						node.send(msg);							
 					});
+				} else {
+					record.subscribe( function(data) {					
+						var msg = {
+							'topic'   : 'update',
+							'payload' : data
+						}
+						node.send(msg);							
+					});
 				}
 			} catch(err) {
 				node.error(err);
