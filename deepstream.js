@@ -257,7 +257,7 @@ module.exports = function(RED) {
 			node.send({
 				record : record,
 				topic: 'record',
-				payload: null
+				payload: record.get()
 			})
 			if (config.path) {
 				try {
@@ -296,7 +296,7 @@ module.exports = function(RED) {
 			node.send({
 				record : record,
 				topic: 'record',
-				payload: null
+				payload: record.get()
 			})			
 		});		     
 
