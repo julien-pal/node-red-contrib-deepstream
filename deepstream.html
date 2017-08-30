@@ -256,7 +256,7 @@
 				required:true
 			},
 			recordPath: {value:"",required:true},
-			path: {value:"",required:true}
+			path: {value:""}
         },
         inputs:1,
         outputs:0,
@@ -292,8 +292,8 @@
 </script>
 
 <script type="text/x-red" data-help-name="Deepstream Record subscribe">
-    <p>Connects to a server using the deepstream protocol to subscribe to an event.</p>
-	<p>The parameter <code>Event</code> (or <code>msg.topic</code>) will define the event to which we subscribe.</p>
+    <p>Connects to a server using the deepstream protocol to get a record and subscribe to the <code>Subscribe Path</code> if one is defined.</p>
+	<p>The parameter <code>Record path</code> will define the record to get.</p>
 	<br>
 	<p>The output will be put in <code>msg.payload</code></p>
 </script>
@@ -305,7 +305,7 @@
         defaults: {
             name: {value:""},
             server: {type:"deepstream-server",required:true},
-            recordPath: {value:"",required:true},
+            recordPath: {value:""},
 			path: {value:""}
         },
         inputs:0,
@@ -320,6 +320,49 @@
     });
 </script>
 
+<!-- ***************** Record Get *********************** -->
+<script type="text/x-red" data-template-name="Deepstream Record get">
+	<div class="form-row">
+        <label for="node-input-server" style="width: 110px;"><i class="fa fa-bookmark"></i>Server</label>
+        <input type="text" id="node-input-server">
+    </div>
+    <div class="form-row">
+        <label for="node-input-recordPath" style="width: 110px;"><i class="fa fa-envelope"></i>Record path</label>
+        <input type="text" id="node-input-recordPath" placeholder="recordPath">
+    </div>
+    <div class="form-row">
+        <label for="node-input-name" style="width: 110px;"><i class="fa fa-tag"></i>Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="Deepstream Record get">
+    <p>Connects to a server using the deepstream protocol to get a record</p>
+	<p>The parameter <code>Record path</code> will define the record to get.</p>
+	<br>
+	<p>The output will be put in <code>msg.payload</code></p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('Deepstream Record get',{
+        category: 'input',
+        color:"#0FBBEC",
+        defaults: {
+            name: {value:""},
+            server: {type:"deepstream-server",required:true},
+            recordPath: {value:"",required:true}
+        },
+        inputs:0,
+        outputs:1,
+        icon: "deepstream.svg",
+        label: function() {
+            return this.name||"Deepstream Record Get";
+        },
+        labelStyle: function() {
+            return (this.name)?"node_label_italic":"";
+        }
+    });
+</script>
 
 <!-- ***************** SERVER CONFIG *********************** -->
 <script type="text/x-red" data-template-name="deepstream-server">

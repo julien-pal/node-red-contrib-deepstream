@@ -218,13 +218,13 @@ module.exports = function(RED) {
 				
 		node.on("input", function(msg) {
 			createDSClient(node, config, function(client) {
-				var record = client.record.getRecord(config.recordPath);
+				if (!msg.record) {
+					msg.record = client.record.getRecord(config.recordPath);
+				}				
 				if (config.path) {
-					record.set(config.path, msg.payload);
+					msg.record.set(config.path, msg.payload);
 				} else {
-					for(var i in msg.payload) {
-						record.set(i, msg.payload[i]);
-					}
+					msg.record.set(msg.payload);
 				}			
 			});
         });			        
@@ -239,33 +239,59 @@ module.exports = function(RED) {
     }
     
 	
-	/****************************** Record subscribe *******************************/
-		
+	/****************************** Record subscribe *******************************/		
     function DeepstreamRecordSubscribeNode(config) {    
 		var node = this;
 		RED.nodes.createNode(node, config);		
 		
 		node.status({fill:"grey",shape:"ring",text:"connecting"});
 		createDSClient(node, config, function(client) {
+			node.status({fill:"green",shape:"dot",text:"connected"});
 			var record = client.record.getRecord(config.recordPath);
 			node.send({
 				record : record,
 				topic: 'record',
 				payload: null
 			})
-			try {
-				node.status({fill:"green",shape:"dot",text:"connected"});
-				record.subscribe(config.path, function(data) {					
-					var msg = {
-						topic : 'update',
-						payload : data,
-						record : record
-					}
-					node.send(msg);							
-				});
-			} catch(err) {
-				node.error(err);
+			if (config.path) {
+				try {
+					record.subscribe(config.path, function(data) {					
+						var msg = {
+							topic : 'update',
+							payload : data,
+							record : record
+						}
+						node.send(msg);							
+					});
+				} catch(err) {
+					node.error(err);
+				}
 			}
+		});		     
+
+        node.on("close", function(done) {
+            if (node.client) {
+                node.client.close();
+				delete node.client;
+            }
+            done();
+        });
+    }
+	
+	/****************************** Record Get *******************************/		
+    function DeepstreamRecordGetNode(config) {    
+		var node = this;
+		RED.nodes.createNode(node, config);		
+		
+		node.status({fill:"grey",shape:"ring",text:"connecting"});
+		createDSClient(node, config, function(client) {
+			node.status({fill:"green",shape:"dot",text:"connected"});
+			var record = client.record.getRecord(config.recordPath);
+			node.send({
+				record : record,
+				topic: 'record',
+				payload: null
+			})			
 		});		     
 
         node.on("close", function(done) {
@@ -286,6 +312,7 @@ module.exports = function(RED) {
     RED.nodes.registerType("Deepstream Event emit",DeepstreamEventEmitNode);
 	RED.nodes.registerType("Deepstream Event subscribe",DeepstreamEventSubscribeNode);
 	
+	RED.nodes.registerType("Deepstream Record get",DeepstreamRecordGetNode);
 	RED.nodes.registerType("Deepstream Record update",DeepstreamRecordUpdateNode);
 	RED.nodes.registerType("Deepstream Record subscribe",DeepstreamRecordSubscribeNode);
 
