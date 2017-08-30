@@ -196,7 +196,7 @@ module.exports = function(RED) {
 						payload : data
 					}
 					node.send(msg);							
-				});
+				});				
 			} catch(err) {
 				node.error(err);
 			}
@@ -225,6 +225,7 @@ module.exports = function(RED) {
 					} else {
 						record.set(msg.payload);
 					}	
+					node.status({});
 				} catch(err) {
 					node.error(err);
 				}
