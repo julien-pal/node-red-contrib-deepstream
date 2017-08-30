@@ -219,13 +219,19 @@ module.exports = function(RED) {
 		node.on("input", function(msg) {
 			createDSClient(node, config, function(client) {
 				if (!msg.record) {
-					msg.record = client.record.getRecord(config.recordPath);
-				}				
-				if (config.path) {
-					msg.record.set(config.path, msg.payload);
-				} else {
-					msg.record.set(msg.payload);
-				}			
+					if (!config.recordPath) {
+						node.error('Error, no record in message and no recordPath specified');
+						node.status({fill:"red",shape:"dot",text:"No msg.record and no recordPath specified"});
+					} else {
+						msg.record = client.record.getRecord(config.recordPath);
+					}
+				} else {	
+					if (config.path) {
+						msg.record.set(config.path, msg.payload);
+					} else {
+						msg.record.set(msg.payload);
+					}					
+				}
 			});
         });			        
 
