@@ -297,7 +297,6 @@ module.exports = function(RED) {
 				node.status({fill:"green",shape:"dot",text:"connected"});
 				var record = client.record.getRecord(config.recordPath);
 				var msg = {
-					'topic'   : 'record',
 					'payload' : record.get()
 				};				
 				node.send(msg);	
