@@ -18,7 +18,7 @@
 	],
 	"dependencies": {
 		"deepstream.io-client-js": "2.3.0",
-		"Socket.io" : "1.7.4"
+		"socket.io" : "1.7.4"
 	},
 	"author": "Julien Pal",
 	"license": "ISC"
