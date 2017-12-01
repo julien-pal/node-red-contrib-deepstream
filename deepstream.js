@@ -37,6 +37,11 @@ module.exports = function(RED) {
 				node.client.on("error", function(error) {
 					node.status({fill:"grey",shape:"dot",text:"error - " + error});
 					node.warn(error);
+					try {
+						node.client.close();
+					}
+					delete node.client;
+					createDSClient(node, config, callback);
 				});			
 				
 				node.client.login(node.serverConfig, (success, data) => {
@@ -100,7 +105,7 @@ module.exports = function(RED) {
 			try {
 				node.status({fill:"green",shape:"dot",text:"connected"});
 				var method = config.method; 
-				client.rpc.provide(method, function() {						
+				client.rpc.provide(method, function() {		
 					var msg = {
 						res : arguments[arguments.length-1],
 						payload : []
