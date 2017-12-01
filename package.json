@@ -1,6 +1,6 @@
 {
 	"name": "node-red-contrib-deepstream",
-	"version": "1.1.13",
+	"version": "1.1.14",
 	"description": "Deepstream Client for NodeRed",
 	"main": "deepstream.js",
 	"node-red" : {
@@ -17,7 +17,8 @@
 		"deepstream"
 	],
 	"dependencies": {
-		"deepstream.io-client-js": "2.3.0"
+		"deepstream.io-client-js": "2.3.0",
+		"Socket.io" : "1.7.4"
 	},
 	"author": "Julien Pal",
 	"license": "ISC"
