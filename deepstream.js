@@ -39,7 +39,7 @@ module.exports = function(RED) {
 					node.warn(error);
 					try {
 						node.client.close();
-					}
+					} catch (err) { console.log('Error - ' + JSON.stringify(err)); }
 					delete node.client;
 					createDSClient(node, config, callback);
 				});			
