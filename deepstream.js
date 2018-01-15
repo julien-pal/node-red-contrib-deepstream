@@ -11,7 +11,9 @@ module.exports = function(RED) {
 		this.methode = config.method;
         this.username = this.credentials.user;
         this.password = this.credentials.password;
-		this.subscriptionTimeout = config.timeout || 500;
+		this.subscriptionTimeout = config.subscriptionTimeout || 500;
+		this.rpcAckTimeout = config.rpcAckTimeout || 6000;
+		this.rpcResponseTimeout = config.rpcResponseTimeout || 10000;
     }
 	
     RED.nodes.registerType("deepstream-server", DeepstreamServerNode,{
@@ -29,19 +31,36 @@ module.exports = function(RED) {
 				node.serverConfig = RED.nodes.getNode(node.server);					
 				
 				var dsServer = node.serverConfig.server;
-				if( node.serverConfig.port) {
+				if ( node.serverConfig.port ) {
 					dsServer += ':' + node.serverConfig.port
 				}
 				
-				node.client = new DeepstreamClient(dsServer);	
+				var options = {};
+				if ( node.serverConfig.rpcAckTimeout ) {
+					options.rpcAckTimeout = node.serverConfig.rpcAckTimeout;
+				}
+				
+				if ( node.serverConfig.rpcResponseTimeout ) {
+					options.rpcAckTimeout = node.serverConfig.rpcResponseTimeout;
+				}
+				
+				if ( node.serverConfig.subscriptionTimeout ) {
+					options.rpcAckTimeout = node.serverConfig.subscriptionTimeout;
+				}
+				
+				node.client = new DeepstreamClient(dsServer, options);	
+				
 				node.client.on("error", function(error) {
 					node.status({fill:"grey",shape:"dot",text:"error - " + error});
 					node.warn(error);
 					try {
 						node.client.close();
-					} catch (err) { console.log('Error - ' + JSON.stringify(err)); }
+					} catch (err) { 
+						console.log('Error - ' + JSON.stringify(err)); 
+					}
 					delete node.client;
-					createDSClient(node, config, callback);
+					console.log('Reconnection in 5 secondes'); 
+					setTimeout(createDSClient, 5000, node, config, callback);
 				});			
 				
 				node.client.login(node.serverConfig, (success, data) => {

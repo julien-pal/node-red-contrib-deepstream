@@ -411,8 +411,16 @@
 				required:true,
 				validate:RED.validators.number()
 			},       
-			timeout: {
+			subscriptionTimeout: {
 				value : 500,
+				validate: RED.validators.number()
+			},
+			rpcAckTimeout: {
+				value : 6000,
+				validate: RED.validators.number()
+			},
+			rpcResponseTimeout: {
+				value : 10000,
 				validate: RED.validators.number()
 			},
             name: {}
