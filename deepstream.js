@@ -104,6 +104,10 @@ module.exports = function(RED) {
 			});
         });			        
 
+		node.on("error", function(error) {
+			node.error("DeepstreamRpcMakeNode Error - " + error);
+        });
+		
         node.on("close", function(done) {
             if (node.client) {
                 node.client.close();
@@ -144,7 +148,11 @@ module.exports = function(RED) {
 				node.error(err);
 			}
 		});		     
-
+		
+		node.on("error", function(error) {
+			node.error("DeepstreamRpcProvideNode Error - " + error);
+        });
+		
         node.on("close", function(done) {
             if (node.client) {
                 node.client.close();
@@ -176,6 +184,10 @@ module.exports = function(RED) {
 				node.error(err);
 			}						
 		});
+		
+		node.on("error", function(error) {
+			node.error("DeepstreamRpcResponseNode Error - " + error);
+        });
     }
 	
 	/****************************** Event emit *******************************/
