@@ -62,23 +62,30 @@ module.exports = function(RED) {
 					console.log('Reconnection in 5 secondes'); 
 					setTimeout(createDSClient, 5000, node, config, callback);
 				});			
-				
-				node.client.login(node.serverConfig, (success, data) => {
-					if (success) {						
-						if (typeof callback === 'function') {
-							callback(node.client);
-						}
-					} else {
-						node.status({fill:"red",shape:"ring",text:"error - " + data});
-						node.warn("Error while login in", data);							
-					}
-				});
+				deepstreamLogin(node, callback);				
 			} else {
-				callback(node.client);
+				if (node.client.getConnectionState() !== 'OPEN') {
+					deepstreamLogin(node, callback);
+				} else {
+					callback(node.client);
+				}
 			}
 		} catch (err) {
 			node.error(err);
 		}
+	}
+	
+	function deepstreamLogin(node, callback) {
+		node.client.login(node.serverConfig, (success, data) => {
+			if (success) {						
+				if (typeof callback === 'function') {
+					callback(node.client);
+				}
+			} else {
+				node.status({fill:"red",shape:"ring",text:"error - " + data});
+				node.warn("Error while login in", data);							
+			}
+		});
 	}
 	
 	/****************************** RPC MAKE *******************************/
