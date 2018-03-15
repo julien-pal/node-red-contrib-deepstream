@@ -15,9 +15,9 @@ Supported functions :
 * Deepstream Event Emit (Output)
 
 ## Records
-* Deepstream Record get
-* Deepstream Record subscribe
-* Deepstream Record update
+* Deepstream Record get (Input)
+* Deepstream Record subscribe (Input)
+* Deepstream Record update (Output)
 
 ## RPC
 * Deepstream RPC provide (Input) 
