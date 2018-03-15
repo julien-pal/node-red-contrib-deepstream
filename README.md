@@ -1,5 +1,6 @@
 # node-red-contrib-deepstream
-Node-red component for Deepstream services
+
+Node-red component for Deepstream services (A websocket server that syncs realtime data between browsers, smartphones, backends and the IoT)
 
 This package provides deepstream functions for NodeRed (https://deepstreamhub.com/open-source/?io).
 
